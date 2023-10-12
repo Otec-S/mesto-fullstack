@@ -123,6 +123,7 @@ function App() {
       api
         .getUserInfo()
         .then((res) => {
+          console.log('res in api.getUserInfo():', res);
           setCurrentUser(res);
         })
         .catch(console.error);

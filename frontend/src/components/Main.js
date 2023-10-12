@@ -7,6 +7,12 @@ function Main(props) {
   //подписка на контекст CurrentUserContext, после которой в currentUser появился объект с данными о User
   const currentUser = React.useContext(CurrentUserContext);
 
+  console.log("currentUser:", currentUser);
+
+  console.log("props.cards:", props.cards);
+
+
+
   return (
     <main className="main">
       <section className="profile">
@@ -22,7 +28,7 @@ function Main(props) {
               className="profile__avatar-change"
             />
             <div
-              style={{ backgroundImage: `url(${currentUser.avatar})` }}
+              style={{ backgroundImage: `url(${currentUser.data?.avatar})` }}
               alt="Фото аватара"
               className="profile__avatar"
             />
@@ -34,8 +40,8 @@ function Main(props) {
               className="profile__edit-button"
               onClick={props.onEditProfile}
             ></button>
-            <h1 className="profile__title">{currentUser.name}</h1>
-            <p className="profile__subtitle">{currentUser.about}</p>
+            <h1 className="profile__title">{currentUser.data?.name}</h1>
+            <p className="profile__subtitle">{currentUser.data?.about}</p>
           </div>
         </div>
         <button
@@ -48,8 +54,8 @@ function Main(props) {
 
       <section className="cardsblock main__cardsblock">
         <ul className="cards">
-          {/* сюда вставляются карточки из шаблона */}
-          {props.cards.map((item) => {
+          {props.cards.data?.map((item) => {
+            console.log('item:', item);
             return (
               <Card
                 card={item}

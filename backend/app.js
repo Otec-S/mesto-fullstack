@@ -1,3 +1,4 @@
+const cors = require("cors");
 const express = require("express");
 const mongoose = require("mongoose");
 const { errors, celebrate, Joi } = require("celebrate");
@@ -15,6 +16,8 @@ const { requestLogger, errorLogger } = require("./middlewares/logger");
 const { PORT = 3000 } = process.env;
 
 const app = express();
+
+app.use(cors());
 
 // научили express работать с json
 app.use(express.json());

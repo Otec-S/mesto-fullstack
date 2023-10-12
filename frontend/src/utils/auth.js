@@ -1,4 +1,5 @@
-export const BASE_URL = "https://auth.nomoreparties.co";
+// export const BASE_URL = "https://auth.nomoreparties.co";
+export const BASE_URL = "http://localhost:3000";
 
 export function register(email, password) {
   return fetch(`${BASE_URL}/signup`, {
@@ -25,6 +26,7 @@ export function authorize(email, password) {
     .then((data) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
+        console.log('data from function authorize:', data); //возвращается только токен
         return data;
       }
     })
@@ -41,6 +43,6 @@ export const getContent = (token) => {
     },
   })
     .then((res) => res.json())
-    .then((data) => data)
+    .then((data) => data) // тут data поступает нормальная
     .catch(console.error);
 };

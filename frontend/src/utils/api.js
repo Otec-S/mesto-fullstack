@@ -2,6 +2,7 @@ class Api {
   constructor(config) {
     this._url = config.url;
     this._headers = config.headers;
+    this._token = localStorage.getItem("token"); //????
   }
 
   //вспомогательный метод
@@ -15,7 +16,14 @@ class Api {
 
   getCards() {
     return fetch(`${this._url}/cards`, {
-      headers: this._headers
+      // headers: this._headers
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`,
+        authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTIwZTgxZmNmMTBjMDI3OGNhNzY1MzYiLCJpYXQiOjE2OTY2NTY0ODEsImV4cCI6MTY5NzI2MTI4MX0.BsS76MQHpojcn650KIx-KQ3V5tKCcTvn2R0TI8v46uk",
+      },
     }).then(this._handleResponse);
   }
 
@@ -31,9 +39,16 @@ class Api {
     }).then(this._handleResponse);
   }
 
+
+
   getUserInfo() {
     return fetch(`${this._url}/users/me`, {
-      headers: this._headers
+      // headers: this._headers
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${this._token}`,
+      },
     }).then(this._handleResponse);
   }
 
@@ -82,11 +97,14 @@ class Api {
   }
 }
 
+const token = localStorage.getItem("token");
+
 //экземпляр класса Api с моими параметрами и токеном
 const api = new Api({
-  url: "https://mesto.nomoreparties.co/v1/cohort-70",
+  // url: "https://mesto.nomoreparties.co/v1/cohort-70",
+  url: "http://localhost:3000",
   headers: {
-    authorization: "6485611d-59cd-4b63-ae62-8d988da14a3a",
+    Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   },
 });
