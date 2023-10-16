@@ -16,7 +16,7 @@ const User = require("../models/user");
 const getUsers = (req, res, next) => {
   User.find({})
     // вернём записанные в базу данные
-    .then((users) => res.status(200).send({ data: users }))
+    .then((users) => res.status(200).send(users))
     .catch(next);
 };
 
@@ -24,12 +24,10 @@ const getUsers = (req, res, next) => {
 const findUserById = (req, res, next) => {
   User.findById(req.params.id)
     .orFail(new NotFound404Error("Пользователь с указанным _id не найден"))
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
-        next(
-          new BadRequest400Error("Невалидный _id пользователя")
-        );
+        next(new BadRequest400Error("Невалидный _id пользователя"));
         return;
       }
       next(err);
@@ -47,13 +45,11 @@ const createUser = (req, res, next) => {
         // вернём записанные в базу данные
         .then((user) => {
           res.status(201).send({
-            data: {
-              name: user.name,
-              about: user.about,
-              avatar: user.avatar,
-              _id: user._id,
-              email: user.email,
-            },
+            name: user.name,
+            about: user.about,
+            avatar: user.avatar,
+            _id: user._id,
+            email: user.email,
           });
         })
         // данные не записались, вернём ошибку
@@ -118,7 +114,7 @@ const login = (req, res, next) => {
 // поиск текущего пользователя
 const findCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     // пользователь не найден, вернём ошибку
     .catch(next);
 };
@@ -138,7 +134,7 @@ const updateUserProfile = (req, res, next) => {
     }
   )
     .orFail(new NotFound404Error("Пользователь с указанным _id не найден"))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     // данные не записались, вернём ошибку
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
@@ -166,7 +162,7 @@ const updateUserAvatar = (req, res, next) => {
     }
   )
     .orFail(new NotFound404Error("Пользователь с указанным _id не найден"))
-    .then((user) => res.status(200).send({ data: user }))
+    .then((user) => res.status(200).send(user))
     // данные не записались, вернём ошибку
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {

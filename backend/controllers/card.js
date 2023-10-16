@@ -11,7 +11,7 @@ const Card = require("../models/card");
 const getCards = (req, res, next) => {
   Card.find({})
     // вернём все карточки
-    .then((cards) => res.status(200).send({ data: cards }))
+    .then((cards) => res.status(200).send(cards))
     .catch(next);
 };
 
@@ -21,7 +21,7 @@ const createCard = (req, res, next) => {
   const owner = req.user._id;
   Card.create({ name, link, owner })
     // вернём записанные в базу данные
-    .then((card) => res.status(201).send({ data: card }))
+    .then((card) => res.status(201).send(card))
     // данные не записались, вернём ошибку
     .catch((err) => {
       if (err instanceof mongoose.Error.ValidationError) {
@@ -42,7 +42,7 @@ const deleteCardById = (req, res, next) => {
     .orFail(new NotFound404Error("Карточка с указанным _id не найдена."))
     .then((card) => {
       if (card.owner.equals(req.user._id)) {
-        return card.deleteOne().then(() => res.send({ data: card }));
+        return card.deleteOne().then(() => res.send(card));
       }
 
       throw new Forbidden403Error("У вас нет прав на удаление этой карточки");
@@ -68,7 +68,7 @@ const likeCard = (req, res, next) => {
     { new: true }
   )
     .orFail(new NotFound404Error("Карточка с указанным _id не найдена."))
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
         next(new BadRequest400Error("Передан невалидный _id карточки"));
@@ -86,7 +86,7 @@ const dislikeCard = (req, res, next) => {
     { new: true }
   )
     .orFail(new NotFound404Error("Карточка с указанным _id не найдена."))
-    .then((card) => res.status(200).send({ data: card }))
+    .then((card) => res.status(200).send(card))
     .catch((err) => {
       if (err instanceof mongoose.Error.CastError) {
         next(new BadRequest400Error("Передан невалидный _id карточки"));

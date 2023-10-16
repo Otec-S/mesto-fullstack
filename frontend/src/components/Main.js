@@ -28,7 +28,7 @@ function Main(props) {
               className="profile__avatar-change"
             />
             <div
-              style={{ backgroundImage: `url(${currentUser.data?.avatar})` }}
+              style={{ backgroundImage: `url(${currentUser.avatar})` }}
               alt="Фото аватара"
               className="profile__avatar"
             />
@@ -40,8 +40,8 @@ function Main(props) {
               className="profile__edit-button"
               onClick={props.onEditProfile}
             ></button>
-            <h1 className="profile__title">{currentUser.data?.name}</h1>
-            <p className="profile__subtitle">{currentUser.data?.about}</p>
+            <h1 className="profile__title">{currentUser.name}</h1>
+            <p className="profile__subtitle">{currentUser.about}</p>
           </div>
         </div>
         <button
@@ -54,7 +54,7 @@ function Main(props) {
 
       <section className="cardsblock main__cardsblock">
         <ul className="cards">
-          {props.cards.data?.map((item) => {
+          {props.cards.map((item) => {
             {/* console.log('item:', item); */}
             return (
               <Card

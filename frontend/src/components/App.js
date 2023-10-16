@@ -136,7 +136,7 @@ function App() {
           if (res) {
             // авторизуем пользователя
             handleLogin();
-            setUsersEmail(res.data.email);
+            setUsersEmail(res.email); // тут убрали data посередине
             navigate("/", { replace: true });
           }
         })
@@ -162,7 +162,7 @@ function App() {
       api
         .putLike(card._id)
         .then((newCard) => {
-          console.log("newCard:", newCard);
+          // console.log("newCard:", newCard);
           changeLikes(newCard);
         })
         .catch(console.error);
