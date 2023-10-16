@@ -26,8 +26,8 @@ export function authorize(email, password) {
     .then((data) => {
       if (data.token) {
         localStorage.setItem("token", data.token);
-        console.log('data from function authorize:', data); //возвращается только токен
-        return data;
+        console.log('data from function authorize:', data);
+        return data; //возвращается только токен
       }
     })
     .catch(console.error);

@@ -7,9 +7,9 @@ function Main(props) {
   //подписка на контекст CurrentUserContext, после которой в currentUser появился объект с данными о User
   const currentUser = React.useContext(CurrentUserContext);
 
-  console.log("currentUser:", currentUser);
+  // console.log("currentUser:", currentUser);
 
-  console.log("props.cards:", props.cards);
+  // console.log("props.cards:", props.cards);
 
 
 
@@ -55,7 +55,7 @@ function Main(props) {
       <section className="cardsblock main__cardsblock">
         <ul className="cards">
           {props.cards.data?.map((item) => {
-            console.log('item:', item);
+            {/* console.log('item:', item); */}
             return (
               <Card
                 card={item}

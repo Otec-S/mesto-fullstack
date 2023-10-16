@@ -29,7 +29,7 @@ export default function Login({ onLogin, setUsersEmail }) {
     }
 
     auth
-      .authorize(formValue.email, formValue.password)
+      .authorize(formValue.email, formValue.password) // функция возвращает token
       .then((data) => {
         //ловим значение email пользователя при логировании и устанавливаем в стейт, полученный через пропс
         setUsersEmail(formValue.email);
@@ -37,6 +37,7 @@ export default function Login({ onLogin, setUsersEmail }) {
           setFormValue({ email: "", password: "" });
           //изменяем стейт isLoggedIn на true
           onLogin();
+          console.log('сработал onLogin');
           navigate("/", { replace: true });
         }
       })

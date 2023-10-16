@@ -39,6 +39,8 @@ function App() {
   //переменная состояния для данных о залогинивании пользователя
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
+  // console.log('isLoggedIn in app.js:', isLoggedIn);
+
   //переменная для отслеживания состояния загрузки
   const [isLoading, setIsLoading] = React.useState(false);
 
@@ -89,14 +91,42 @@ function App() {
 
   //ФУНКЦИИ
 
-  //функция проверки токена
+  // !!!!!!!!!!!!!! НЕ срабатвает при первом логировании пользователя !!!!!!!!!!!!!!!
+  //эффект при монтировании для currentUser и для получения карточек с сервера
+  React.useEffect(() => {
+    console.log("сработал первый isLoggedIn");
+
+    //только если пользователь залогирован
+    if (isLoggedIn) {
+      //получаем данные о пользователе с сервера
+
+      api
+        .getUserInfo()
+        .then((res) => {
+          console.log("res in api.getUserInfo():", res);
+          setCurrentUser(res);
+        })
+        .catch(console.error);
+
+      // получаем данные об изначальном массиве карточек с сервера
+      api
+        .getCards()
+        .then((res) => {
+          //присваиваем переменной cards массив полученных с сервера объектов карточек
+          setCards(res);
+        })
+        .catch(console.error);
+    }
+  }, [isLoggedIn]);
+
+  //функция проверки токена, чтобы не вводить его повторно (при перезагрузке страницы например)
   React.useEffect(() => {
     tokenCheck();
   }, []);
 
   function tokenCheck() {
     // если у пользователя есть токен в localStorage,
-    // эта функция проверит валидность токена
+    // эта функция проверит валидность токена, и если токен валидный, то перебросит (или оставит) его на главной странице
     const token = localStorage.getItem("token");
     if (token) {
       // проверим токен
@@ -113,31 +143,6 @@ function App() {
         .catch(console.error);
     }
   }
-
-  //эффект при монтировании для currentUser и для получения карточек с сервера
-  React.useEffect(() => {
-    //только если пользователь залогирован
-    if (isLoggedIn) {
-      //получаем данные о пользователе с сервера
-
-      api
-        .getUserInfo()
-        .then((res) => {
-          console.log('res in api.getUserInfo():', res);
-          setCurrentUser(res);
-        })
-        .catch(console.error);
-
-      // получаем данные об изначальном массиве карточек с сервера
-      api
-        .getCards()
-        .then((res) => {
-          //присваиваем переменной cards массив полученных с сервера объектов карточек
-          setCards(res);
-        })
-        .catch(console.error);
-    }
-  }, [isLoggedIn]);
 
   //функция проставления и убирания лайков
   function handleCardLike(card) {
@@ -157,7 +162,7 @@ function App() {
       api
         .putLike(card._id)
         .then((newCard) => {
-          console.log('newCard:', newCard);
+          console.log("newCard:", newCard);
           changeLikes(newCard);
         })
         .catch(console.error);
@@ -181,11 +186,12 @@ function App() {
       api
         .deleteCard(card._id)
         .then(() => {
-          setCards((cardsList) =>
+          setCards((cardsList) => {
+            console.log('cardsList:', cardsList);
             cardsList.filter(function (item) {
               return item._id !== card._id;
-            })
-          );
+            });
+          });
         })
         .catch(console.error);
     }
