@@ -89,12 +89,17 @@ function App() {
     setIsLoggedIn(true);
   }
 
+  //меняем isLoggedIn на false
+  function handleUnLogin() {
+    setIsLoggedIn(false);
+  }
+
   //ФУНКЦИИ
 
   // !!!!!!!!!!!!!! НЕ срабатвает при первом логировании пользователя !!!!!!!!!!!!!!!
   //эффект при монтировании для currentUser и для получения карточек с сервера
   React.useEffect(() => {
-    console.log("сработал первый isLoggedIn");
+    // console.log("сработал первый isLoggedIn");
 
     //только если пользователь залогирован
     if (isLoggedIn) {
@@ -103,7 +108,7 @@ function App() {
       api
         .getUserInfo()
         .then((res) => {
-          console.log("res in api.getUserInfo():", res);
+          // console.log("res in api.getUserInfo():", res);
           setCurrentUser(res);
         })
         .catch(console.error);
@@ -179,7 +184,8 @@ function App() {
   //функция удаления карточки
   function handleCardDelete(card) {
     // Определяем, являемся ли мы владельцем текущей карточки
-    const isOwn = card.owner._id === currentUser._id;
+
+    const isOwn = card.owner === currentUser._id;
 
     //После запроса в API, обновите стейт cards с помощью метода filter: создайте копию массива, исключив из него удалённую карточку.
     if (isOwn) {
@@ -187,7 +193,7 @@ function App() {
         .deleteCard(card._id)
         .then(() => {
           setCards((cardsList) => {
-            console.log('cardsList:', cardsList);
+            console.log("cardsList:", cardsList);
             cardsList.filter(function (item) {
               return item._id !== card._id;
             });
@@ -303,7 +309,12 @@ function App() {
                   isLoggedIn={isLoggedIn}
                   element={
                     <>
-                      <Header buttonSignOut="Выйти" usersEmail={usersEmail} />
+                      <Header
+                        buttonSignOut="Выйти"
+                        handleUnLogin={handleUnLogin}
+                        setCurrentUser={setCurrentUser}
+                        usersEmail={usersEmail}
+                      />
                       <Main
                         onEditProfile={handleEditProfileClick}
                         onEditAvatar={handleEditAvatarClick}

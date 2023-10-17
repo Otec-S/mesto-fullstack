@@ -9,7 +9,7 @@ function Main(props) {
 
   // console.log("currentUser:", currentUser);
 
-  // console.log("props.cards:", props.cards);
+  console.log("props.cards:", props.cards);
 
 
 
@@ -54,7 +54,7 @@ function Main(props) {
 
       <section className="cardsblock main__cardsblock">
         <ul className="cards">
-          {props.cards.map((item) => {
+          {props.cards?.map((item) => {
             {/* console.log('item:', item); */}
             return (
               <Card

@@ -8,6 +8,7 @@ class Api {
   //вспомогательный метод
   _handleResponse(res) {
     if (res.ok) {
+      console.log('res:', res);
       return res.json();
     } else {
       return Promise.reject(`Ошибка: ${res.status}`);
@@ -126,6 +127,7 @@ const api = new Api({
   // url: "https://mesto.nomoreparties.co/v1/cohort-70",
   url: "http://localhost:3000",
   headers: {
+    Accept: "application/json",
     Authorization: `Bearer ${token}`,
     "Content-Type": "application/json",
   },

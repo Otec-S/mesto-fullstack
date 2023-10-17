@@ -37,7 +37,7 @@ export default function Login({ onLogin, setUsersEmail }) {
           setFormValue({ email: "", password: "" });
           //изменяем стейт isLoggedIn на true
           onLogin();
-          console.log('сработал onLogin');
+          // console.log('сработал onLogin');
           navigate("/", { replace: true });
         }
       })
